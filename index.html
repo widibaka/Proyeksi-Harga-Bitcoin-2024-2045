@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyeksi Harga Bitcoin 2024-2045</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/10.3.3/highcharts.js"></script>
+    <style>
+        :root {
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+            --card-bg: white;
+            --card-shadow: rgba(0,0,0,0.1);
+            --info-bg: #f0f0f0;
+            --tab-bg: #eee;
+            --tab-border: #ddd;
+            --tab-active-bg: #4a90e2;
+            --tab-active-color: white;
+        }
+        
+        [data-theme="dark"] {
+            --text-color: #e0e0e0;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --card-shadow: rgba(0,0,0,0.3);
+            --info-bg: #2d2d2d;
+            --tab-bg: #333333;
+            --tab-border: #444444;
+            --tab-active-bg: #3a75b5;
+            --tab-active-color: white;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px var(--card-shadow);
+            padding: 20px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 30px;
+        }
+        
+        .chart-container {
+            height: 500px;
+            margin-bottom: 30px;
+        }
+        
+        .scenario-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .scenario-box {
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+            text-align: center;
+            width: 200px;
+            margin: 10px;
+        }
+        
+        .bear-case {
+            background-color: #ff6961;
+        }
+        
+        .base-case {
+            background-color: #77dd77;
+        }
+        
+        .bull-case {
+            background-color: #fdfd96;
+            color: #333;
+        }
+        
+        .info-section {
+            background-color: var(--info-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .info-section h3 {
+            margin-top: 0;
+        }
+        
+        .chart-tabs {
+            display: flex;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .chart-tab {
+            padding: 10px 20px;
+            background-color: var(--tab-bg);
+            border: 1px solid var(--tab-border);
+            cursor: pointer;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            border-radius: 5px 5px 0 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            color: var(--text-color);
+        }
+        
+        .chart-tab.active {
+            background-color: var(--tab-active-bg);
+            color: var(--tab-active-color);
+            border-color: var(--tab-active-bg);
+        }
+        
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        
+        .theme-switch {
+            display: inline-block;
+            height: 34px;
+            position: relative;
+            width: 60px;
+        }
+        
+        .theme-switch input {
+            display: none;
+        }
+        
+        .slider {
+            background-color: #ccc;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            background-color: white;
+            bottom: 4px;
+            content: "";
+            height: 26px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 26px;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #3a75b5;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .mode-label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="theme-switch-wrapper">
+            <span class="mode-label">Mode Gelap:</span>
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider"></div>
+            </label>
+        </div>
+        
+        <h1>Proyeksi Harga Bitcoin 2024-2045</h1>
+        
+        <div class="scenario-container">
+            <div class="scenario-box bear-case">
+                <h3>Skenario Pesimis</h3>
+                <p>Harga 2045: $3,2 Juta</p>
+                <p>Kapitalisasi Pasar: $68T</p>
+                <p>ARR 21-Tahun: 20,5%</p>
+            </div>
+            <div class="scenario-box base-case">
+                <h3>Skenario Dasar</h3>
+                <p>Harga 2045: $13,4 Juta</p>
+                <p>Kapitalisasi Pasar: $281T</p>
+                <p>ARR 21-Tahun: 28,9%</p>
+            </div>
+            <div class="scenario-box bull-case">
+                <h3>Skenario Optimis</h3>
+                <p>Harga 2045: $49,2 Juta</p>
+                <p>Kapitalisasi Pasar: $1.032T</p>
+                <p>ARR 21-Tahun: 37,1%</p>
+            </div>
+        </div>
+        
+        <div class="chart-tabs">
+            <div class="chart-tab active" onclick="switchChart('price-log-chart')">Harga (Skala Log)</div>
+            <div class="chart-tab" onclick="switchChart('price-linear-chart')">Harga (Skala Linear)</div>
+            <div class="chart-tab" onclick="switchChart('price-column-chart')">Perbandingan Harga</div>
+            <div class="chart-tab" onclick="switchChart('arr-chart')">Proyeksi ARR</div>
+        </div>
+        
+        <div id="price-log-chart" class="chart-container"></div>
+        <div id="price-linear-chart" class="chart-container" style="display: none;"></div>
+        <div id="price-column-chart" class="chart-container" style="display: none;"></div>
+        <div id="arr-chart" class="chart-container" style="display: none;"></div>
+        
+        <div class="info-section">
+            <h3>Asumsi Model</h3>
+            <p>Harga BTC 2024: $65.000</p>
+            <p>ARR Skenario Dasar untuk 2025: 50,0%</p>
+            <p>Pengurangan ARR per tahun (Dasar): 2,5%</p>
+            <p>ARR Kondisi Stabil (Dasar): 20,0%</p>
+        </div>
+    </div>
+
+    <script>
+        // Dark mode toggle functionality
+        const toggleSwitch = document.querySelector('#checkbox');
+        
+        function switchTheme(e) {
+            if (e.target.checked) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                updateCharts('dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                updateCharts('light');
+            }    
+        }
+        
+        toggleSwitch.addEventListener('change', switchTheme, false);
+        
+        // Check for saved user preference
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            
+            if (currentTheme === 'dark') {
+                toggleSwitch.checked = true;
+            }
+        }
+        
+        // Update charts on theme change
+        function updateCharts(theme) {
+            const isDark = theme === 'dark';
+            
+            Highcharts.charts.forEach(chart => {
+                if (!chart) return;
+                
+                chart.update({
+                    chart: {
+                        backgroundColor: isDark ? '#1e1e1e' : 'white',
+                    },
+                    title: {
+                        style: {
+                            color: isDark ? '#e0e0e0' : '#333333'
+                        }
+                    },
+                    subtitle: {
+                        style: {
+                            color: isDark ? '#cccccc' : '#666666'
+                        }
+                    },
+                    xAxis: {
+                        labels: {
+                            style: {
+                                color: isDark ? '#e0e0e0' : '#666666'
+                            }
+                        },
+                        title: {
+                            style: {
+                                color: isDark ? '#e0e0e0' : '#666666'
+                            }
+                        }
+                    },
+                    yAxis: {
+                        labels: {
+                            style: {
+                                color: isDark ? '#e0e0e0' : '#666666'
+                            }
+                        },
+                        title: {
+                            style: {
+                                color: isDark ? '#e0e0e0' : '#666666'
+                            }
+                        },
+                        gridLineColor: isDark ? '#333333' : '#e6e6e6'
+                    },
+                    legend: {
+                        itemStyle: {
+                            color: isDark ? '#e0e0e0' : '#333333'
+                        }
+                    }
+                });
+            });
+        }
+        
+        // Data yang diekstrak dari model Bitcoin24
+        const tahun = [2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039, 2040, 2041, 2042, 2043, 2044, 2045];
+        
+        // Data harga skenario dasar (dalam juta dolar)
+        const hargaDasar = [
+            0.07, 0.10, 0.14, 0.21, 0.30, 0.42, 0.6, 0.8, 1.0, 1.3, 1.7, 2.1, 2.6, 3.1, 3.7, 4.5, 5.4, 6.5, 7.8, 9.3, 11.2, 13.4
+        ];
+        
+        // Data ARR
+        const dataARR = [
+            null, 50.0, 47.5, 45.0, 42.5, 40.0, 37.5, 35.0, 32.5, 30.0, 27.5, 25.0, 22.5, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0
+        ];
+        
+        // Skenario pesimis (dari data - sekitar 24% dari skenario dasar di 2045)
+        const hargaPesimis = hargaDasar.map(harga => harga * 0.24);
+        
+        // Skenario optimis (dari data - sekitar 367% dari skenario dasar di 2045)
+        const hargaOptimis = hargaDasar.map(harga => harga * 3.67);
+        
+        // Chart theme settings based on current theme
+        const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+        const chartOptions = {
+            chart: {
+                backgroundColor: isDarkMode ? '#1e1e1e' : 'white',
+            },
+            title: {
+                style: {
+                    color: isDarkMode ? '#e0e0e0' : '#333333'
+                }
+            },
+            subtitle: {
+                style: {
+                    color: isDarkMode ? '#cccccc' : '#666666'
+                }
+            },
+            xAxis: {
+                labels: {
+                    style: {
+                        color: isDarkMode ? '#e0e0e0' : '#666666'
+                    }
+                },
+                title: {
+                    style: {
+                        color: isDarkMode ? '#e0e0e0' : '#666666'
+                    }
+                }
+            },
+            yAxis: {
+                labels: {
+                    style: {
+                        color: isDarkMode ? '#e0e0e0' : '#666666'
+                    }
+                },
+                title: {
+                    style: {
+                        color: isDarkMode ? '#e0e0e0' : '#666666'
+                    }
+                },
+                gridLineColor: isDarkMode ? '#333333' : '#e6e6e6'
+            },
+            legend: {
+                itemStyle: {
+                    color: isDarkMode ? '#e0e0e0' : '#333333'
+                }
+            }
+        };
+        
+        // Grafik harga skala logaritmik
+        Highcharts.chart('price-log-chart', {
+            ...chartOptions,
+            title: {
+                text: 'Proyeksi Harga Bitcoin 2024-2045 (Skala Logaritmik)',
+                style: {
+                    fontWeight: 'bold',
+                    color: isDarkMode ? '#e0e0e0' : '#333333'
+                }
+            },
+            subtitle: {
+                text: 'Berdasarkan Model Bitcoin24'
+            },
+            xAxis: {
+                categories: tahun,
+                title: {
+                    text: 'Tahun'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Harga (Juta $)'
+                },
+                type: 'logarithmic',
+                minorTickInterval: 0.1
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    pointStart: 0
+                }
+            },
+            series: [{
+                name: 'Skenario Dasar',
+                data: hargaDasar,
+                color: '#77dd77',
+                marker: {
+                    symbol: 'circle'
+                }
+            }, {
+                name: 'Skenario Pesimis',
+                data: hargaPesimis,
+                color: '#ff6961',
+                marker: {
+                    symbol: 'triangle'
+                }
+            }, {
+                name: 'Skenario Optimis',
+                data: hargaOptimis,
+                color: '#fdfd96',
+                marker: {
+                    symbol: 'square'
+                }
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        });
+        
+        // Grafik harga skala linear
+        Highcharts.chart('price-linear-chart', {
+            ...chartOptions,
+            title: {
+                text: 'Proyeksi Harga Bitcoin 2024-2045 (Skala Linear)',
+                style: {
+                    fontWeight: 'bold',
+                    color: isDarkMode ? '#e0e0e0' : '#333333'
+                }
+            },
+            subtitle: {
+                text: 'Berdasarkan Model Bitcoin24'
+            },
+            xAxis: {
+                categories: tahun,
+                title: {
+                    text: 'Tahun'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Harga (Juta $)'
+                },
+                type: 'linear'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    pointStart: 0
+                }
+            },
+            series: [{
+                name: 'Skenario Dasar',
+                data: hargaDasar,
+                color: '#77dd77',
+                marker: {
+                    symbol: 'circle'
+                }
+            }, {
+                name: 'Skenario Pesimis',
+                data: hargaPesimis,
+                color: '#ff6961',
+                marker: {
+                    symbol: 'triangle'
+                }
+            }, {
+                name: 'Skenario Optimis',
+                data: hargaOptimis,
+                color: '#fdfd96',
+                marker: {
+                    symbol: 'square'
+                }
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        });
+        
+        // Grafik kolom untuk perbandingan harga
+        Highcharts.chart('price-column-chart', {
+            ...chartOptions,
+            chart: {
+                type: 'column',
+                backgroundColor: isDarkMode ? '#1e1e1e' : 'white',
+            },
+            title: {
+                text: 'Perbandingan Harga Bitcoin Per Tahun',
+                style: {
+                    fontWeight: 'bold',
+                    color: isDarkMode ? '#e0e0e0' : '#333333'
+                }
+            },
+            subtitle: {
+                text: 'Skenario Pesimis, Dasar, dan Optimis'
+            },
+            xAxis: {
+                categories: tahun,
+                crosshair: true,
+                title: {
+                    text: 'Tahun'
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Harga (Juta $)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>${point.y:.3f} Juta</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Skenario Pesimis',
+                data: hargaPesimis,
+                color: '#ff6961'
+            }, {
+                name: 'Skenario Dasar',
+                data: hargaDasar,
+                color: '#77dd77'
+            }, {
+                name: 'Skenario Optimis',
+                data: hargaOptimis,
+                color: '#fdfd96'
+            }]
+        });
+        
+        // Grafik ARR
+        Highcharts.chart('arr-chart', {
+            ...chartOptions,
+            title: {
+                text: 'Proyeksi Tingkat Pengembalian Tahunan (ARR)',
+                style: {
+                    fontWeight: 'bold',
+                    color: isDarkMode ? '#e0e0e0' : '#333333'
+                }
+            },
+            xAxis: {
+                categories: tahun,
+                title: {
+                    text: 'Tahun'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Tingkat Pengembalian Tahunan (%)'
+                },
+                min: 0,
+                max: 55
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    pointStart: 0
+                }
+            },
+            series: [{
+                name: 'ARR Skenario Dasar',
+                data: dataARR,
+                color: '#ff7f50',
+                type: 'line'
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        });
+        
+        // Fungsi untuk beralih antar grafik
+        function switchChart(chartId) {
+            // Sembunyikan semua grafik
+            document.getElementById('price-log-chart').style.display = 'none';
+            document.getElementById('price-linear-chart').style.display = 'none';
+            document.getElementById('price-column-chart').style.display = 'none';
+            document.getElementById('arr-chart').style.display = 'none';
+            
+            // Tampilkan grafik yang dipilih
+            document.getElementById(chartId).style.display = 'block';
+            
+            // Perbarui tab yang aktif
+            const tabs = document.getElementsByClassName('chart-tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            // Temukan tab yang diklik dan aktifkan
+            const clickedTab = Array.from(tabs).find(tab => {
+                return tab.onclick.toString().includes(chartId);
+            });
+            
+            if (clickedTab) {
+                clickedTab.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
