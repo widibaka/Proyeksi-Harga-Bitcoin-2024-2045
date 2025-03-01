@@ -1,0 +1,1 @@
+Ini adalah chart proyeksi perkembangan BTC dari 2024 hingga 2045, terdiri dari 3 case. Bear case, standar case, dan bull case. Data dikutip dari presentasi The Great Reset 2030 Timothy Ronald, yang mengutip dari Michael Sailor pimpinan Micro Strategy
